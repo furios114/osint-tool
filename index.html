@@ -3,39 +3,52 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Validator — Phone & Email Intelligence</title>
+<title>OSINT Validator — Phone & Email Intelligence</title>
+<meta name="description" content="Локальная проверка номеров и почт. Без API, без серверов, без утечек." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
 
   <header class="topbar">
     <div class="brand">
-      <div class="brand-mark">V</div>
+      <div class="brand-mark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M9 12l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <div class="brand-text">
-        <span class="brand-name">Validator</span>
+        <span class="brand-name">OSINT Validator</span>
         <span class="brand-sub">phone & email intelligence</span>
       </div>
     </div>
     <div class="topbar-meta">
       <span class="dot"></span>
-      <span>all checks run in your browser</span>
+      <span>offline-first · no api · no tracking</span>
     </div>
   </header>
 
   <main class="container">
     <section class="hero">
+      <div class="hero-badge">v1.0 · client-side only</div>
       <h1>Проверка номера и почты</h1>
-      <p class="hero-sub">Многослойный скоринг: синтаксис, страна, оператор, MX-записи, одноразовые домены. Всё локально, ничего не уходит на сервер.</p>
+      <p class="hero-sub">Многослойный скоринг без внешних API. Парсинг, определение страны, оператора, MX-записей, одноразовых доменов и опечаток — всё считается прямо в браузере.</p>
     </section>
 
     <section class="input-card">
       <div class="input-row">
         <div class="input-wrap">
-          <span class="input-icon" id="inputIcon">⌘</span>
+          <span class="input-icon" id="inputIcon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </span>
           <input
             id="input"
             type="text"
@@ -47,17 +60,28 @@
         </div>
         <button id="checkBtn" class="btn-primary">
           <span>Проверить</span>
-          <span class="btn-arrow">→</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
       </div>
 
       <div class="options">
-        <label class="opt">
-          <input type="checkbox" id="optDeep" />
-          <span class="opt-box"></span>
-          <span>Глубокая проверка (DNS + disposable)</span>
-        </label>
-        <button id="clearBtn" class="btn-ghost">Очистить</button>
+        <div class="opts-left">
+          <label class="opt">
+            <input type="checkbox" id="optDeep" checked />
+            <span class="opt-box"></span>
+            <span>DNS-проверка MX</span>
+          </label>
+          <label class="opt">
+            <input type="checkbox" id="optHistory" checked />
+            <span class="opt-box"></span>
+            <span>Сохранять историю</span>
+          </label>
+        </div>
+        <div class="opts-right">
+          <button id="clearBtn" class="btn-ghost">Очистить</button>
+        </div>
       </div>
     </section>
 
@@ -75,7 +99,20 @@
             </div>
           </div>
           <div class="score-meta">
-            <div id="gradeBadge" class="grade-badge">—</div>
+            <div class="score-top">
+              <div id="gradeBadge" class="grade-badge">—</div>
+              <button id="copyBtn" class="icon-btn" title="Копировать результат">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M5 15V5a2 2 0 012-2h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </button>
+              <button id="exportBtn" class="icon-btn" title="Экспорт в JSON">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            </div>
             <div id="resultInput" class="result-input">—</div>
             <div id="resultType" class="result-type">—</div>
           </div>
@@ -89,6 +126,16 @@
         </div>
         <div id="layersList" class="layers-list"></div>
       </div>
+
+      <div id="extra" class="extra hidden"></div>
+    </section>
+
+    <section id="historySection" class="history hidden">
+      <div class="history-head">
+        <span>История проверок</span>
+        <button id="clearHistory" class="btn-ghost">Очистить историю</button>
+      </div>
+      <div id="historyList" class="history-list"></div>
     </section>
 
     <section class="legend">
@@ -101,12 +148,14 @@
   </main>
 
   <footer class="footer">
-    <span>Validator</span>
+    <span>OSINT Validator</span>
     <span>·</span>
-    <span>runs client-side</span>
+    <span>100% client-side</span>
     <span>·</span>
-    <span>no data stored</span>
+    <span>no data leaves your browser</span>
   </footer>
+
+  <div id="toast" class="toast"></div>
 
   <script src="scorer.js"></script>
   <script src="app.js"></script>
