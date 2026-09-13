@@ -1,7 +1,3 @@
-// ============================================================
-//  OSINT Validator — scoring engine (100% client-side, no API)
-// ============================================================
-
 // ---------- Утилиты ----------
 function gradeOf(s) {
   if (s >= 90) return "verified";
@@ -10,10 +6,6 @@ function gradeOf(s) {
   if (s >= 1)  return "suspicious";
   return "invalid";
 }
-
-// ============================================================
-//  PHONE
-// ============================================================
 
 // Коды стран (E.164) → ISO. Расширяемый список.
 const CC = {
@@ -173,10 +165,6 @@ function scorePhone(input) {
 
   return { score: total, grade: gradeOf(total), type: "phone", layers };
 }
-
-// ============================================================
-//  EMAIL
-// ============================================================
 
 // Расширенный список одноразовых доменов
 const DISPOSABLE = new Set([
@@ -356,10 +344,6 @@ async function scoreEmail(input, opts = {}) {
 
   return { score: total, grade: gradeOf(total), type: "email", layers, suggestion };
 }
-
-// ============================================================
-//  EXPORT
-// ============================================================
 window.Scorer = {
   scoreEmail,
   scorePhone,
