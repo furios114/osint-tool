@@ -2,162 +2,372 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>OSINT Validator — Phone & Email Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
+<title>Discomfi Tool — Phone & Email Intelligence</title>
 <meta name="description" content="Локальная проверка номеров и почт. Без API, без серверов, без утечек." />
+
+<!-- PWA -->
+<meta name="theme-color" content="#0f1115" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Discomfi" />
+<meta name="mobile-web-app-capable" content="yes" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" type="image/svg+xml" href="icon.svg" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-glow"></div>
-
   <header class="topbar">
-    <div class="brand">
-      <div class="brand-mark">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
-          <path d="M9 12l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">Discomfi Tool</span>
+          <span class="brand-sub">phone & email intelligence</span>
+        </div>
       </div>
-      <div class="brand-text">
-        <span class="brand-name">OSINT Validator</span>
-        <span class="brand-sub">phone & email intelligence</span>
-      </div>
-    </div>
-    <div class="topbar-meta">
-      <span class="dot"></span>
-      <span>offline-first · no api · no tracking</span>
+      <nav class="topnav">
+        <span class="session-stat" id="sessionStat" title="Проверок за сессию">0 проверок</span>
+        <a href="https://github.com/furios114/osint-tool" target="_blank" rel="noopener" class="topnav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/>
+          </svg>
+          GitHub
+        </a>
+      </nav>
     </div>
   </header>
 
   <main class="container">
     <section class="hero">
-      <div class="hero-badge">v1.0 · client-side only</div>
       <h1>Проверка номера и почты</h1>
-      <p class="hero-sub">Многослойный скоринг без внешних API. Парсинг, определение страны, оператора, MX-записей, одноразовых доменов и опечаток — всё считается прямо в браузере.</p>
+      <p class="hero-sub">Многослойный скоринг без внешних API. Парсинг, страна, оператор, MX-записи, одноразовые домены и опечатки — всё считается прямо в браузере.</p>
+      <div class="hero-badges">
+        <span class="badge badge-green">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+            <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          100% client-side
+        </span>
+        <span class="badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Работает офлайн
+        </span>
+        <span class="badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="10" width="16" height="10" rx="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M8 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Данные не покидают браузер
+        </span>
+      </div>
     </section>
 
-    <section class="input-card">
-      <div class="input-row">
-        <div class="input-wrap">
-          <span class="input-icon" id="inputIcon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
-              <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            </svg>
-          </span>
-          <input
-            id="input"
-            type="text"
-            placeholder="+7 999 123-45-67  или  user@example.com"
-            autocomplete="off"
-            spellcheck="false"
-          />
-          <span class="input-type" id="inputType">auto</span>
-        </div>
-        <button id="checkBtn" class="btn-primary">
-          <span>Проверить</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
+    <!-- Десктопные табы (скрываются на мобиле) -->
+    <div class="tabs tabs-desktop" role="tablist">
+      <button class="tab active" data-tab="single" role="tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
+          <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        Быстрая проверка
+      </button>
+      <button class="tab" data-tab="bulk" role="tab">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        Массовая проверка
+      </button>
+    </div>
 
-      <div class="options">
-        <div class="opts-left">
-          <label class="opt">
-            <input type="checkbox" id="optDeep" checked />
-            <span class="opt-box"></span>
-            <span>DNS-проверка MX</span>
-          </label>
-          <label class="opt">
-            <input type="checkbox" id="optHistory" checked />
-            <span class="opt-box"></span>
-            <span>Сохранять историю</span>
-          </label>
+    <!-- SINGLE -->
+    <section id="panel-single" class="panel active">
+      <div class="input-card">
+        <div class="input-row">
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <input
+              id="input"
+              type="text"
+              inputmode="text"
+              enterkeyhint="go"
+              placeholder="+7 999 123-45-67 или user@example.com"
+              autocomplete="off"
+              autocapitalize="off"
+              autocorrect="off"
+              spellcheck="false"
+            />
+            <button id="pasteBtn" class="paste-btn" title="Вставить из буфера" aria-label="Вставить">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <rect x="8" y="3" width="8" height="4" rx="1" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </button>
+            <span class="input-type" id="inputType">auto</span>
+          </div>
+          <button id="checkBtn" class="btn-primary">
+            <span>Проверить</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
-        <div class="opts-right">
+
+        <div class="options">
+          <div class="opts-left">
+            <label class="opt">
+              <input type="checkbox" id="optDeep" checked />
+              <span class="opt-box"></span>
+              <span>DNS-проверка MX</span>
+            </label>
+            <label class="opt">
+              <input type="checkbox" id="optHistory" checked />
+              <span class="opt-box"></span>
+              <span>История</span>
+            </label>
+          </div>
           <button id="clearBtn" class="btn-ghost">Очистить</button>
         </div>
       </div>
-    </section>
 
-    <section id="result" class="result hidden">
-      <div class="result-head">
-        <div class="score-block">
-          <div class="score-ring">
-            <svg viewBox="0 0 120 120">
-              <circle class="ring-bg" cx="60" cy="60" r="52" />
-              <circle id="ringFill" class="ring-fill" cx="60" cy="60" r="52" />
-            </svg>
-            <div class="score-inner">
-              <span id="scoreValue" class="score-value">0</span>
-              <span class="score-max">/100</span>
+      <section id="result" class="result hidden">
+        <div class="result-head">
+          <div class="score-block">
+            <div class="score-ring">
+              <svg viewBox="0 0 120 120">
+                <circle class="ring-bg" cx="60" cy="60" r="52" />
+                <circle id="ringFill" class="ring-fill" cx="60" cy="60" r="52" />
+              </svg>
+              <div class="score-inner">
+                <span id="scoreValue" class="score-value">0</span>
+                <span class="score-max">/ 100</span>
+              </div>
+            </div>
+            <div class="score-meta">
+              <div class="score-top">
+                <div id="gradeBadge" class="grade-badge">—</div>
+                <div class="score-actions">
+                  <button id="copyBtn" class="icon-btn" title="Копировать результат">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                      <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                      <path d="M5 15V5a2 2 0 012-2h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                    <span>Копировать</span>
+                  </button>
+                  <button id="exportBtn" class="icon-btn" title="Экспорт в JSON">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>JSON</span>
+                  </button>
+                  <button id="shareBtn" class="icon-btn icon-btn-mobile" title="Поделиться">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                      <path d="M4 12v7a2 2 0 002 2h12a2 2 0 002-2v-7M16 6l-4-4-4 4M12 2v14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Share</span>
+                  </button>
+                </div>
+              </div>
+              <div id="resultInput" class="result-input">—</div>
+              <div id="resultType" class="result-type">—</div>
             </div>
           </div>
-          <div class="score-meta">
-            <div class="score-top">
-              <div id="gradeBadge" class="grade-badge">—</div>
-              <button id="copyBtn" class="icon-btn" title="Копировать результат">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/>
-                  <path d="M5 15V5a2 2 0 012-2h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                </svg>
-              </button>
-              <button id="exportBtn" class="icon-btn" title="Экспорт в JSON">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
-            <div id="resultInput" class="result-input">—</div>
-            <div id="resultType" class="result-type">—</div>
+        </div>
+
+        <div class="layers">
+          <div class="layers-head">
+            <span>Слои проверки</span>
+            <span id="duration" class="duration">—</span>
+          </div>
+          <div id="layersList" class="layers-list"></div>
+        </div>
+
+        <div id="extra" class="extra hidden"></div>
+
+        <div id="rawData" class="raw-data hidden">
+          <div class="raw-head">
+            <span>Полные данные</span>
+            <button id="copyRaw" class="icon-btn" title="Копировать JSON">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <rect x="9" y="9" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M5 15V5a2 2 0 012-2h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+          <pre id="rawJson" class="raw-json"></pre>
+        </div>
+      </section>
+    </section>
+
+    <!-- BULK -->
+    <section id="panel-bulk" class="panel">
+      <div class="input-card">
+        <div class="bulk-head">
+          <label class="bulk-label">Список значений — по одному на строку</label>
+          <span class="bulk-hint">Телефоны и почты можно смешивать</span>
+        </div>
+        <textarea
+          id="bulkInput"
+          class="bulk-input"
+          placeholder="+79991234567&#10;user@example.com&#10;+79997654321&#10;test@gmail.com"
+          spellcheck="false"
+        ></textarea>
+        <div class="bulk-mobile-tools">
+          <button id="bulkPaste" class="btn-ghost">Вставить</button>
+          <button id="bulkClear" class="btn-ghost">Очистить</button>
+        </div>
+        <div class="options">
+          <div class="opts-left">
+            <label class="opt">
+              <input type="checkbox" id="optBulkDeep" checked />
+              <span class="opt-box"></span>
+              <span>DNS-проверка MX</span>
+            </label>
+          </div>
+          <div class="bulk-actions">
+            <button id="bulkClearDesk" class="btn-ghost">Очистить</button>
+            <button id="bulkRun" class="btn-primary">
+              <span>Проверить все</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
           </div>
         </div>
       </div>
 
-      <div class="layers">
-        <div class="layers-head">
-          <span>Слои проверки</span>
-          <span id="duration" class="duration">—</span>
+      <section id="bulkResult" class="result hidden">
+        <div class="bulk-result-head">
+          <div class="bulk-stats-wrap">
+            <div class="bulk-stats" id="bulkStats">—</div>
+            <div class="bulk-progress-wrap">
+              <div class="bulk-progress" id="bulkProgress"></div>
+            </div>
+          </div>
+          <div class="bulk-result-actions">
+            <button id="bulkExportCsv" class="icon-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>CSV</span>
+            </button>
+            <button id="bulkExportJson" class="icon-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>JSON</span>
+            </button>
+            <button id="bulkShare" class="icon-btn icon-btn-mobile">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M4 12v7a2 2 0 002 2h12a2 2 0 002-2v-7M16 6l-4-4-4 4M12 2v14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>Share</span>
+            </button>
+          </div>
         </div>
-        <div id="layersList" class="layers-list"></div>
-      </div>
-
-      <div id="extra" class="extra hidden"></div>
+        <div class="table-wrap">
+          <table class="bulk-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Значение</th>
+                <th>Тип</th>
+                <th>Скор</th>
+                <th>Grade</th>
+                <th class="col-details">Детали</th>
+              </tr>
+            </thead>
+            <tbody id="bulkTableBody"></tbody>
+          </table>
+        </div>
+      </section>
     </section>
 
+    <!-- HISTORY -->
     <section id="historySection" class="history hidden">
       <div class="history-head">
-        <span>История проверок</span>
-        <button id="clearHistory" class="btn-ghost">Очистить историю</button>
+        <div class="history-head-left">
+          <span>История проверок</span>
+          <div class="history-filter">
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="phone">Тел</button>
+            <button class="filter-btn" data-filter="email">Почта</button>
+          </div>
+        </div>
+        <div class="history-head-right">
+          <button id="historyExport" class="btn-ghost">Экспорт</button>
+          <button id="clearHistory" class="btn-ghost">Очистить</button>
+        </div>
       </div>
       <div id="historyList" class="history-list"></div>
     </section>
 
     <section class="legend">
-      <div class="legend-item"><span class="legend-dot g-verified"></span> 90–100 · verified</div>
-      <div class="legend-item"><span class="legend-dot g-likely"></span> 70–89 · likely</div>
-      <div class="legend-item"><span class="legend-dot g-risky"></span> 40–69 · risky</div>
-      <div class="legend-item"><span class="legend-dot g-suspicious"></span> 1–39 · suspicious</div>
-      <div class="legend-item"><span class="legend-dot g-invalid"></span> 0 · invalid</div>
+      <div class="legend-title">Шкала оценки</div>
+      <div class="legend-row">
+        <div class="legend-item"><span class="legend-dot g-verified"></span> 90–100 · Verified</div>
+        <div class="legend-item"><span class="legend-dot g-likely"></span> 70–89 · Likely</div>
+        <div class="legend-item"><span class="legend-dot g-risky"></span> 40–69 · Risky</div>
+        <div class="legend-item"><span class="legend-dot g-suspicious"></span> 1–39 · Suspicious</div>
+        <div class="legend-item"><span class="legend-dot g-invalid"></span> 0 · Invalid</div>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <span>OSINT Validator</span>
-    <span>·</span>
-    <span>100% client-side</span>
-    <span>·</span>
-    <span>no data leaves your browser</span>
+    <div class="footer-inner">
+      <span>Discomfi Tool</span>
+      <span class="footer-sep">·</span>
+      <span>100% client-side</span>
+      <span class="footer-sep">·</span>
+      <span>Данные не покидают браузер</span>
+    </div>
   </footer>
+
+  <!-- Мобильный таб-бар -->
+  <nav class="mobile-nav" aria-label="Основная навигация">
+    <button class="mnav-btn active" data-tab="single" aria-label="Проверка">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span>Проверка</span>
+    </button>
+    <button class="mnav-btn" data-tab="bulk" aria-label="Массово">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span>Массово</span>
+    </button>
+    <button class="mnav-btn" id="mnavHistory" aria-label="История">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <span>История</span>
+    </button>
+  </nav>
 
   <div id="toast" class="toast"></div>
 
-  <script src="scorer.js"></script>
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
