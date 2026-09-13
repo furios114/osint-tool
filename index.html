@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Validator — Phone & Email Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">V</div>
+      <div class="brand-text">
+        <span class="brand-name">Validator</span>
+        <span class="brand-sub">phone & email intelligence</span>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <span class="dot"></span>
+      <span>all checks run in your browser</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Проверка номера и почты</h1>
+      <p class="hero-sub">Многослойный скоринг: синтаксис, страна, оператор, MX-записи, одноразовые домены. Всё локально, ничего не уходит на сервер.</p>
+    </section>
+
+    <section class="input-card">
+      <div class="input-row">
+        <div class="input-wrap">
+          <span class="input-icon" id="inputIcon">⌘</span>
+          <input
+            id="input"
+            type="text"
+            placeholder="+7 999 123-45-67  или  user@example.com"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <span class="input-type" id="inputType">auto</span>
+        </div>
+        <button id="checkBtn" class="btn-primary">
+          <span>Проверить</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+
+      <div class="options">
+        <label class="opt">
+          <input type="checkbox" id="optDeep" />
+          <span class="opt-box"></span>
+          <span>Глубокая проверка (DNS + disposable)</span>
+        </label>
+        <button id="clearBtn" class="btn-ghost">Очистить</button>
+      </div>
+    </section>
+
+    <section id="result" class="result hidden">
+      <div class="result-head">
+        <div class="score-block">
+          <div class="score-ring">
+            <svg viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="52" />
+              <circle id="ringFill" class="ring-fill" cx="60" cy="60" r="52" />
+            </svg>
+            <div class="score-inner">
+              <span id="scoreValue" class="score-value">0</span>
+              <span class="score-max">/100</span>
+            </div>
+          </div>
+          <div class="score-meta">
+            <div id="gradeBadge" class="grade-badge">—</div>
+            <div id="resultInput" class="result-input">—</div>
+            <div id="resultType" class="result-type">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layers">
+        <div class="layers-head">
+          <span>Слои проверки</span>
+          <span id="duration" class="duration">—</span>
+        </div>
+        <div id="layersList" class="layers-list"></div>
+      </div>
+    </section>
+
+    <section class="legend">
+      <div class="legend-item"><span class="legend-dot g-verified"></span> 90–100 · verified</div>
+      <div class="legend-item"><span class="legend-dot g-likely"></span> 70–89 · likely</div>
+      <div class="legend-item"><span class="legend-dot g-risky"></span> 40–69 · risky</div>
+      <div class="legend-item"><span class="legend-dot g-suspicious"></span> 1–39 · suspicious</div>
+      <div class="legend-item"><span class="legend-dot g-invalid"></span> 0 · invalid</div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Validator</span>
+    <span>·</span>
+    <span>runs client-side</span>
+    <span>·</span>
+    <span>no data stored</span>
+  </footer>
+
+  <script src="scorer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
